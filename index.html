@@ -515,7 +515,8 @@ wire('gfilters', 'g', renderGear);
    SET THESE TWO, then everything below just works.
    ───────────────────────────────────────────── */
 var GITHUB_REPO = "ZhiCLiu/Matcha_Guide";  
-var BMC_USER    = "steeped";     
+var BMC_USER    = "steeped";  
+var CONTACT_EMAIL = "persimmoners@gmail.com"; 
 
 (function wireSupport() {
   var star = document.getElementById('star-btn');
@@ -532,9 +533,12 @@ var BMC_USER    = "steeped";
     .catch(function() { n.remove(); });   /* rate-limited or offline: drop it, don't show a lie */
 })();
 
-document.getElementById('feedback').addEventListener('click', function(e) {
-  e.preventDefault(); alert('Point this at a Google Form or your email.');
-});
+/* suggestions -> your inbox, subject pre-filled so they're easy to filter */
+(function wireFeedback() {
+  var f = document.getElementById('feedback');
+  f.href = 'mailto:' + CONTACT_EMAIL
+    + '?subject=' + encodeURIComponent('Steeped — brand or tool suggestion');
+})();
 
 fetch('data.json').then(function(r){ return r.json(); }).then(function(d) {
   DATA = d;
