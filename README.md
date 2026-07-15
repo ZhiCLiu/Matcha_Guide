@@ -1,111 +1,93 @@
-# Steeped — matcha guide (static v1)
+# Steeped
 
-A single-page matcha ranking site. Reads from `data.json`, renders a Top 10 with
-community-sourced pros/cons, and links each claim back to r/matcha or
-r/MatchaEverything. No backend, no build step.
+**Matcha, read from the source.** Ten brands and eight tools, ranked from what people
+actually say on [r/matcha](https://www.reddit.com/r/matcha/) and
+[r/MatchaEverything](https://www.reddit.com/r/MatchaEverything/) — not from whoever
+pays the best affiliate rate.
 
-## Files
-- `index.html` — the whole site (HTML + CSS + JS inline)
-- `data.json` — the only file you edit each month (holds both `products` and `gear`)
+### → [Read the guide](https://github.com/ZhiCLiu/Matcha_Guide.git)
 
-## Data sources
-The guide draws on the two core matcha subreddits:
-- **r/matcha** — larger, enthusiast-leaning; brand comparisons and ceremonial-grade depth
-- **r/MatchaEverything** — newer, broader; lattes, budget picks, everyday/lifestyle use
+Every "best matcha" list is someone's affiliate income. This one isn't. No ads, no
+sponsored placement, no brand moves up. Each verdict links back to the thread it
+came from, so you can check my work.
 
-Each pro/con carries a `source` field. Citation links auto-route to that
-subreddit's search (`?restrict_sr=1`), so a claim tagged `r/MatchaEverything`
-links into that sub, not r/matcha.
+**Where it's soft:** the sentiment scores are my read of recurring themes, not a
+computation. One tool in here has no independent community feedback at all, and its
+row says so. Next version computes the numbers from the Reddit API and cites specific
+threads.
 
-## Run locally
-Opening index.html directly with file:// is blocked (it fetches data.json). Run:
-    cd matcha-guide
-    python3 -m http.server 8000
-    # open http://localhost:8000
+If it's useful, a ⭐ tells me it's worth updating next month.
 
-## Deploy to GitHub Pages
-1. Create a new repo (e.g. matcha-guide).
-2. Push:
-    git init
-    git add .
-    git commit -m "v1: static matcha ranking"
-    git branch -M main
-    git remote add origin https://github.com/YOUR_USERNAME/matcha-guide.git
-    git push -u origin main
-3. Settings -> Pages -> Source -> main / root -> Save.
-4. Live at https://YOUR_USERNAME.github.io/matcha-guide/
+---
 
-## Update monthly
-Edit data.json, commit, push. Each product:
-    {
-      "rank": 1, "name": "Brand", "tags": ["ceremonial","latte","budget"],
-      "sentiment": 94, "mentions": 412, "trend": "up", "trend_note": "climbing",
-      "pros": [{ "text": "...", "source": "r/matcha", "detail": "..." }],
-      "cons": [{ "text": "...", "source": "r/MatchaEverything", "detail": "..." }]
-    }
-- trend: "up" | "down" | "steady"
-- source: "r/matcha" | "r/MatchaEverything" (controls which sub the link points to)
-- tags drive the filter buttons: ceremonial, latte, budget
+<details>
+<summary><b>Running it yourself</b></summary>
 
-## Before launch — set two variables
-Open `index.html`, find the config block at the top of the <script> tag:
+Two files, no build step, no backend.
 
-    var GITHUB_REPO = "YOUR_USERNAME/matcha-guide";
-    var BMC_USER    = "YOUR_USERNAME";
+- `index.html` — the whole site
+- `data.json` — the rankings; the only file that changes
 
-Set both. That wires the Star button, the live star count, and Buy Me a Coffee.
-The star count calls `api.github.com` (public, no key). If the repo is private,
-the call is rate-limited, or the user is offline, the count element removes itself
-rather than showing a fake number.
+```bash
+python3 -m http.server 8000   # then open localhost:8000
+```
 
-Still a stub: "Suggest a brand or tool" -> point it at a Google Form or mailto.
+(Opening `index.html` directly won't work — it fetches `data.json`, which `file://` blocks.)
 
-## Why star ranks above coffee
-The support section is a ladder, not two side-by-side buttons. Stars convert far
-better than donations (free, one click, useful to the clicker) and — more to the
-point — the star count is your demand signal. After you post to Reddit, the star
-curve tells you whether anyone actually wants this. Donations won't. Keep the order.
+**Before deploying,** set two variables at the top of the `<script>` in `index.html`:
 
-## Posting to Reddit — post to each sub differently
-Both subs have self-promotion rules; a bare link usually gets removed. Post the
-content, put the link in the body or first comment, and read each sub's rules first.
-- r/matcha: lead with the brand-comparison / source-tracing angle (enthusiast crowd).
-- r/MatchaEverything: lead with "quick way to find a good everyday/latte matcha
-  without overpaying" (broader, lifestyle crowd).
+```js
+var GITHUB_REPO = "YOUR_USERNAME/matcha-guide";
+var BMC_USER    = "YOUR_USERNAME";
+```
 
-## Next (only after traffic validates demand)
-- Replace hand-tuned sentiment with scores from the official Reddit API.
-- Add a scheduled job + database.
-- Add transparent affiliate links (labeled, never affecting rank order).
+Then push and turn on Pages: Settings → Pages → Deploy from a branch → `main` / root.
 
-## Gear & tools section
-`data.json` has a second array, `gear`, rendered as its own Notion database below
-the brand rankings. Each item:
+</details>
 
-    {
-      "name": "The Song Cha tea sifter weights",
-      "kind": "Nice to have",        // Essential | Nice to have | Divisive | Underrated | Skip
-      "verdict": "maybe",            // buy | maybe | depends | skip  -> drives the colored tag + filter
-      "price": "~$12",
-      "summary": "One-line what-it-is.",
-      "pros": [{ "text": "...", "source": "r/matcha", "detail": "..." }],
-      "cons": [{ "text": "...", "source": "r/MatchaEverything", "detail": "..." }]
-    }
+<details>
+<summary><b>Editing the rankings</b></summary>
 
-`source` can also be `"vendor site"`, which links to the product page instead of
-a subreddit search. Used for The Song Cha sifter weights, since its only public
-feedback right now is on the vendor's own site — flagged as thin data in the cons.
+Everything lives in `data.json`. Edit, commit, push — Pages redeploys itself.
 
-## Design notes (so future-you doesn't undo it)
-Direction: "shade-grown." Matcha is grown under tarps for weeks — that's where the
-color comes from. The page is that shaded interior: deep pine ink (`--tarp`) on warm
-stone (`--paper`), with green (`--leaf`) reserved *only* for verdicts. Green is never
-decorative. Dissent is clay, contested is gold.
+```json
+{
+  "rank": 1,
+  "name": "Brand name",
+  "tags": ["ceremonial", "latte", "budget"],
+  "sentiment": 94,
+  "mentions": 412,
+  "trend": "up",
+  "trend_note": "climbing",
+  "pros": [{ "text": "What people like.", "source": "r/matcha", "detail": "context" }],
+  "cons": [{ "text": "What they don't.", "source": "r/MatchaEverything", "detail": "context" }]
+}
+```
 
-Type: Newsreader (editorial serif, display) against Inter Tight (UI/data). The tension
-is the point — opinion journalism backed by numbers.
+- `trend` — `up` / `down` / `steady`
+- `source` — `r/matcha` / `r/MatchaEverything` / `vendor site` — decides where the citation links
+- `tags` — drive the filters
+- `gear[]` items also take `kind`, `verdict` (`buy` / `maybe` / `depends` / `skip`), `price`, `summary`
 
-Signature: the sentiment meter is not a bar. It's **sifted powder** — grain size and
-density both encode the score (95 = fine + dense, 66 = coarse + sparse), tiling an SVG
-sieve mask set in `--grain`. `meter()` in index.html computes both from the score.
-The same grain settles over "shade" in the h1 on load. Don't swap it for a progress bar.
+</details>
+
+<details>
+<summary><b>Design notes</b></summary>
+
+Direction is **shade-grown**: matcha spends weeks under tarps before harvest, which is
+where the color comes from. The page is that shaded interior — pine ink on warm stone,
+with green reserved *only* for verdicts. Green is never decorative. Dissent is clay,
+contested is gold.
+
+Newsreader (editorial serif) against Inter Tight (data). Opinion journalism with numbers
+under it.
+
+The sentiment meter isn't a bar — it's **sifted powder**. Grain size and density both
+encode the score: 95 is fine and dense, 66 is coarse and sparse, tiling an SVG sieve mask.
+The same grain settles over "shade" in the headline on load. Don't swap it for a progress bar.
+
+</details>
+
+---
+
+MIT. The rankings are opinion; the tea is not included.
