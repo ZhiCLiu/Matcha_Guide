@@ -363,11 +363,11 @@
 
   <section id="support">
     <div class="sec-head"><h2>Keeping it unbought</h2></div>
-    <p class="support-lede">No ads, no paid placement, no brand gets to move up. If a link ever carries an affiliate tag it will say so on the link itself, and the order stays exactly where it was. Two ways to help, in order of how much they matter.</p>
+    <p class="support-lede" id="support-lede">No ads, no paid placement, no brand gets to move up. If a link ever carries an affiliate tag it will say so on the link itself, and the order stays exactly where it was. Two ways to help, in order of how much they matter.</p>
 
     <div class="ways">
       <div class="way">
-        <span class="way-idx">1</span>
+        <span class="way-idx" id="way-idx-1">1</span>
         <div>
           <div class="way-title">Star the repo</div>
           <p class="way-sub">Free, one click, and it's the honest signal — <b>stars are how I'll know this is worth updating</b> next month.</p>
@@ -379,7 +379,7 @@
         </a>
       </div>
 
-      <div class="way">
+      <div class="way" id="way-donate">
         <span class="way-idx">2</span>
         <div>
           <div class="way-title">Buy me a coffee</div>
@@ -517,12 +517,29 @@ wire('gfilters', 'g', renderGear);
 var GITHUB_REPO = "ZhiCLiu/Matcha_Guide";  
 var BMC_USER    = "steeped";  
 var CONTACT_EMAIL = "persimmoners@gmail.com"; 
+var SHOW_DONATE   = false;  
+
+/* Set false while posting to Reddit. Some subs read any donate button as
+   commercial, and it hands critics an easy shot at the "nobody pays me" pitch.
+   Star still gives you the demand signal. Flip back to true once the guide
+   has proven useful on its own. */
+var SHOW_DONATE   = true;
 
 (function wireSupport() {
   var star = document.getElementById('star-btn');
-  var bmc  = document.getElementById('bmc-btn');
   star.href = 'https://github.com/' + GITHUB_REPO;
-  bmc.href  = 'https://www.buymeacoffee.com/' + BMC_USER;
+
+  if (SHOW_DONATE) {
+    document.getElementById('bmc-btn').href = 'https://www.buymeacoffee.com/' + BMC_USER;
+  } else {
+    /* one way left, so the copy and the numbering have to stop implying two */
+    document.getElementById('way-donate').remove();
+    document.getElementById('way-idx-1').remove();
+    document.getElementById('support-lede').textContent =
+      "No ads, no paid placement, nothing for sale, no brand gets to move up. "
+      + "If a link ever carries an affiliate tag it will say so on the link itself, "
+      + "and the order stays exactly where it was.";
+  }
 
   /* live star count — public endpoint, no key, no auth */
   var n = document.getElementById('star-n');
