@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Steeped — matcha, read from the source</title>
+<meta name="description" content="Matcha brands and gear, ranked from what people actually say on r/matcha and r/MatchaEverything. Every verdict traces back to a thread. Nothing sponsored.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* shade-grown palette: the tarp, the powder, the leaf */
+    --tarp:    #14201a;   /* deep pine ink — text, structure */
+    --tarp-70: #4a564e;
+    --tarp-45: #7d867f;
+    --tarp-25: #aeb4ac;
+    --paper:   #eeece4;   /* warm stone, not cream */
+    --paper-2: #e6e3d9;
+    --rule:    #d6d2c6;
+    --leaf:    #3f7d35;   /* verdict green */
+    --leaf-lo: #6f9d5e;
+    --clay:    #8a5a3b;   /* dissent — earth, not orange */
+    --gold:    #9a8342;   /* divisive */
+
+    --display: 'Newsreader', Georgia, serif;
+    --ui: 'Inter Tight', -apple-system, system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper); color: var(--tarp);
+    font-family: var(--ui); font-size: 16px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--leaf); color: var(--paper); }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--leaf); outline-offset: 3px; }
+
+  .shell { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+
+  /* ---------------- masthead ---------------- */
+  .mast {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 26px 0 0; font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--tarp-45);
+  }
+  .mast strong { font-weight: 500; color: var(--tarp); letter-spacing: .1em; }
+
+  /* ---------------- hero: the shade ---------------- */
+  .hero { padding: 80px 0 0; position: relative; }
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 300px; gap: 60px; align-items: end;
+  }
+  h1 {
+    font-family: var(--display); font-weight: 300;
+    font-size: clamp(52px, 8vw, 104px); line-height: .92;
+    letter-spacing: -0.03em; margin-bottom: 26px;
+  }
+  h1 .em { font-style: italic; font-weight: 300; }
+  h1 .grow {
+    position: relative; display: inline-block;
+  }
+  /* the shade-grow: a tarp of grain drawn over the word */
+  h1 .grow::after {
+    content: ""; position: absolute; inset: -.06em -.04em;
+    background: var(--leaf);
+    -webkit-mask-image: var(--grain); mask-image: var(--grain);
+    -webkit-mask-size: 3px 3px; mask-size: 3px 3px;
+    opacity: 0; animation: settle 2.4s cubic-bezier(.2,.7,.3,1) .3s forwards;
+    pointer-events: none;
+  }
+  @keyframes settle {
+    0%   { opacity: 0; transform: translateY(-14px) scaleY(1.5); }
+    60%  { opacity: .9; }
+    100% { opacity: .32; transform: translateY(0) scaleY(1); }
+  }
+  .lede {
+    font-family: var(--display); font-size: 19px; font-weight: 300;
+    line-height: 1.55; color: var(--tarp-70); max-width: 34ch;
+  }
+  .stat-stack { border-top: 1px solid var(--tarp); padding-top: 12px; }
+  .stat { display: flex; justify-content: space-between; padding: 7px 0; font-size: 13px; border-bottom: 1px solid var(--rule); }
+  .stat dt { color: var(--tarp-45); }
+  .stat dd { font-variant-numeric: tabular-nums; font-weight: 500; }
+
+  /* ---------------- the sift: signature ---------------- */
+  .sift-band {
+    margin: 74px 0 0; height: 74px; border-top: 1px solid var(--tarp);
+    display: flex; align-items: stretch; gap: 0;
+  }
+  .sift-col {
+    flex: 1; position: relative; border-right: 1px solid var(--rule);
+    display: flex; align-items: flex-end; padding: 0 0 8px 8px;
+  }
+  .sift-col:last-child { border-right: none; }
+  .sift-col span {
+    font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--tarp-45); position: relative; z-index: 2;
+  }
+  .sift-col::before {
+    content: ""; position: absolute; inset: 0; background: var(--leaf);
+    -webkit-mask-image: var(--grain); mask-image: var(--grain);
+    -webkit-mask-size: 3px 3px; mask-size: 3px 3px;
+  }
+  .sift-col:nth-child(1)::before { opacity: .06; }
+  .sift-col:nth-child(2)::before { opacity: .13; }
+  .sift-col:nth-child(3)::before { opacity: .24; }
+  .sift-col:nth-child(4)::before { opacity: .42; }
+
+  /* ---------------- sections ---------------- */
+  section { padding: 88px 0 0; }
+  .sec-head {
+    display: flex; align-items: baseline; gap: 16px;
+    border-bottom: 1px solid var(--tarp); padding-bottom: 10px; margin-bottom: 4px;
+  }
+  .sec-head h2 {
+    font-family: var(--display); font-weight: 400; font-size: 34px;
+    letter-spacing: -.02em; line-height: 1;
+  }
+  .sec-head .note { font-size: 13px; color: var(--tarp-45); margin-left: auto; }
+  .sec-lede { font-size: 14.5px; color: var(--tarp-70); margin: 14px 0 22px; max-width: 58ch; }
+
+  /* filters */
+  .filters { display: flex; gap: 22px; margin-bottom: 6px; flex-wrap: wrap; }
+  .f {
+    background: none; border: none; font-family: var(--ui); font-size: 13px;
+    color: var(--tarp-45); cursor: pointer; padding: 6px 0; letter-spacing: .01em;
+    border-bottom: 1px solid transparent; transition: color .15s, border-color .15s;
+  }
+  .f:hover { color: var(--tarp); }
+  .f.on { color: var(--tarp); border-bottom-color: var(--leaf); font-weight: 500; }
+
+  /* ---------------- entries ---------------- */
+  .entry { border-bottom: 1px solid var(--rule); }
+  .entry-head {
+    display: grid; grid-template-columns: 34px 1fr 128px 62px 42px;
+    gap: 18px; align-items: center; padding: 17px 0; cursor: pointer;
+    transition: opacity .15s;
+  }
+  .entry-head:hover .name { text-decoration: underline; text-decoration-color: var(--tarp-25); text-underline-offset: 4px; }
+  .idx {
+    font-family: var(--display); font-size: 15px; color: var(--tarp-25);
+    font-variant-numeric: tabular-nums; font-style: italic;
+  }
+  .entry.open .idx { color: var(--leaf); }
+  .name { font-family: var(--display); font-size: 22px; font-weight: 400; letter-spacing: -.01em; }
+  .name .kicker { font-family: var(--ui); font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--tarp-45); display: block; margin-bottom: 1px; }
+
+  /* signature: sentiment as sifted grain density */
+  .meter { height: 26px; position: relative; }
+  .meter-fill {
+    position: absolute; inset: 0; background: var(--leaf);
+    -webkit-mask-image: var(--grain); mask-image: var(--grain);
+    -webkit-mask-composite: source-in;
+    transform-origin: bottom;
+    animation: sift .7s cubic-bezier(.2,.8,.3,1) both;
+  }
+  @keyframes sift {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: var(--op); transform: translateY(0); }
+  }
+  .meter-clip { position: absolute; inset: 0; overflow: hidden; }
+  .meter-rule { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--rule); }
+  .score {
+    font-size: 15px; font-variant-numeric: tabular-nums; text-align: right;
+    color: var(--tarp-70);
+  }
+  .drift { font-size: 11px; text-align: right; font-variant-numeric: tabular-nums; }
+  .drift.up { color: var(--leaf); }
+  .drift.down { color: var(--clay); }
+  .drift.flat { color: var(--tarp-25); }
+
+  .entry-body {
+    display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease;
+  }
+  .entry.open .entry-body { grid-template-rows: 1fr; }
+  .body-inner { overflow: hidden; }
+  .body-pad { padding: 4px 0 26px 52px; max-width: 74ch; }
+  .summary {
+    font-family: var(--display); font-size: 17px; font-weight: 300; font-style: italic;
+    color: var(--tarp-70); margin-bottom: 18px; line-height: 1.5;
+  }
+  .v { display: grid; grid-template-columns: 62px 1fr; gap: 16px; padding: 8px 0; align-items: start; }
+  .v-label {
+    font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+    padding-top: 4px; font-weight: 500;
+  }
+  .v-label.pro { color: var(--leaf); }
+  .v-label.con { color: var(--clay); }
+  .v-claim { font-size: 15px; line-height: 1.55; }
+  .cite {
+    display: inline-block; margin-top: 4px; font-size: 12px; color: var(--tarp-45);
+    text-decoration: none; border-bottom: 1px solid var(--rule);
+    padding-bottom: 1px; transition: color .15s, border-color .15s;
+  }
+  .cite:hover { color: var(--leaf); border-bottom-color: var(--leaf); }
+
+  /* gear-specific */
+  .gear-head { grid-template-columns: 1fr 96px 82px; }
+  .verdict-mark {
+    font-size: 11px; letter-spacing: .07em; text-transform: uppercase; font-weight: 500;
+  }
+  .vm-buy { color: var(--leaf); }
+  .vm-skip { color: var(--clay); }
+  .vm-dep { color: var(--gold); }
+  .price { font-size: 13px; color: var(--tarp-45); text-align: right; font-variant-numeric: tabular-nums; }
+
+  /* ---------------- note / method ---------------- */
+  .plate {
+    border: 1px solid var(--tarp); padding: 30px 34px; margin-top: 28px;
+    display: grid; grid-template-columns: 132px 1fr; gap: 34px;
+  }
+  .plate-k {
+    font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--tarp-45);
+  }
+  .plate p { font-size: 14.5px; line-height: 1.65; color: var(--tarp-70); margin-bottom: 11px; }
+  .plate p:last-child { margin-bottom: 0; }
+  .plate strong { color: var(--tarp); font-weight: 500; }
+
+  .support-lede { font-size: 14.5px; color: var(--tarp-70); max-width: 56ch; line-height: 1.6; margin-top: 22px; }
+
+  .ways { margin-top: 30px; border-top: 1px solid var(--tarp); }
+  .way {
+    display: grid; grid-template-columns: 26px 1fr auto; gap: 20px;
+    align-items: center; padding: 22px 0; border-bottom: 1px solid var(--rule);
+  }
+  .way-idx {
+    font-family: var(--display); font-style: italic; font-size: 14px; color: var(--tarp-25);
+  }
+  .way-title { font-family: var(--display); font-size: 21px; font-weight: 400; letter-spacing: -.01em; }
+  .way-sub { font-size: 13px; color: var(--tarp-45); margin-top: 3px; }
+  .way-sub b { color: var(--leaf); font-weight: 500; }
+
+  .btn {
+    font-family: var(--ui); font-size: 12px; letter-spacing: .07em; text-transform: uppercase;
+    font-weight: 500; padding: 13px 22px; border: 1px solid var(--tarp);
+    background: var(--tarp); color: var(--paper); cursor: pointer; text-decoration: none;
+    white-space: nowrap; display: inline-flex; align-items: center; gap: 9px;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .btn:hover { background: var(--leaf); border-color: var(--leaf); }
+  .btn.ghost { background: none; color: var(--tarp); }
+  .btn.ghost:hover { background: var(--tarp); color: var(--paper); border-color: var(--tarp); }
+  .btn svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+
+  /* star count reads as grain settling, same language as the meters */
+  .star-count {
+    font-family: var(--ui); font-variant-numeric: tabular-nums; font-size: 12px;
+    letter-spacing: .04em; padding-left: 9px; margin-left: 2px;
+    border-left: 1px solid rgba(238,236,228,.32);
+  }
+  .btn.ghost .star-count { border-left-color: var(--rule); }
+
+  footer {
+    margin-top: 90px; border-top: 1px solid var(--tarp); padding: 18px 0 60px;
+    display: flex; justify-content: space-between; font-size: 12px;
+    color: var(--tarp-45); letter-spacing: .04em; flex-wrap: wrap; gap: 10px;
+  }
+  footer a { text-decoration: none; border-bottom: 1px solid var(--rule); }
+  footer a:hover { color: var(--leaf); }
+
+  .empty { padding: 26px 0; color: var(--tarp-45); font-size: 14px; }
+
+  @media (max-width: 820px) {
+    .shell { padding: 0 22px; }
+    .hero { padding-top: 48px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 34px; align-items: start; }
+    .entry-head { grid-template-columns: 24px 1fr 44px; gap: 12px; }
+    .meter, .drift { display: none; }
+    .gear-head { grid-template-columns: 1fr 74px; }
+    .gear-head .price { display: none; }
+    .body-pad { padding-left: 0; }
+    .v { grid-template-columns: 52px 1fr; gap: 12px; }
+    .plate { grid-template-columns: 1fr; gap: 12px; padding: 22px; }
+    .way { grid-template-columns: 1fr; gap: 14px; }
+    .way-idx { display: none; }
+    .sift-band { height: 56px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::after { animation: none !important; transition: none !important; }
+    h1 .grow::after { opacity: .32; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <div class="mast">
+    <span><strong>Steeped</strong></span>
+    <span id="mast-date">—</span>
+  </div>
+
+  <header class="hero">
+    <div class="hero-grid">
+      <div>
+        <h1>Matcha is grown<br>in the <span class="grow">shade</span>.<br><span class="em">So is its price.</span></h1>
+        <p class="lede">Every "best matcha" list is someone's affiliate income. This one is a reading of what people say when nobody's paying them — r/matcha and r/MatchaEverything, ten brands, eight tools, each verdict linked back to the room it came from.</p>
+      </div>
+      <dl class="stat-stack">
+        <div class="stat"><dt>Threads read</dt><dd id="s-threads">—</dd></div>
+        <div class="stat"><dt>Brands</dt><dd id="s-brands">—</dd></div>
+        <div class="stat"><dt>Tools</dt><dd id="s-gear">—</dd></div>
+        <div class="stat"><dt>Sponsored</dt><dd>None</dd></div>
+      </dl>
+    </div>
+
+    <div class="sift-band" aria-hidden="true">
+      <div class="sift-col"><span>clumped</span></div>
+      <div class="sift-col"><span>coarse</span></div>
+      <div class="sift-col"><span>sifted</span></div>
+      <div class="sift-col"><span>fine</span></div>
+    </div>
+  </header>
+
+  <section id="brands">
+    <div class="sec-head">
+      <h2>The brands</h2>
+      <span class="note">density = sentiment</span>
+    </div>
+    <p class="sec-lede">Ordered by how warmly a brand is spoken about, not how often. Open a row to see what's said for and against it.</p>
+    <div class="filters" id="filters">
+      <button class="f on" data-f="all">Everything</button>
+      <button class="f" data-f="ceremonial">Ceremonial</button>
+      <button class="f" data-f="latte">Latte &amp; culinary</button>
+      <button class="f" data-f="budget">Budget</button>
+    </div>
+    <div id="list"></div>
+  </section>
+
+  <section id="gear">
+    <div class="sec-head">
+      <h2>The tools</h2>
+      <span class="note">what earns counter space</span>
+    </div>
+    <p class="sec-lede">Matcha has a gear problem: starter sets bundle six things, and roughly two of them matter. Here's where the community actually lands.</p>
+    <div class="filters" id="gfilters">
+      <button class="f on" data-g="all">Everything</button>
+      <button class="f" data-g="buy">Worth it</button>
+      <button class="f" data-g="depends">Contested</button>
+      <button class="f" data-g="skip">Skip</button>
+    </div>
+    <div id="glist"></div>
+  </section>
+
+  <section id="method">
+    <div class="sec-head"><h2>How to read this</h2></div>
+    <div class="plate">
+      <span class="plate-k">Where it's soft</span>
+      <div>
+        <p><strong>The numbers are my read, not a computation.</strong> Sentiment scores and mention counts are hand-set from recurring themes across both subs. They are honest impressions, not measurements. A later version will compute them from the official Reddit API and link to specific threads instead of subreddit searches.</p>
+        <p>Where a claim has thin evidence, the entry says so rather than rounding up. One tool here has no independent community feedback at all, and its row admits it.</p>
+      </div>
+    </div>
+    <div class="plate" style="margin-top:-1px">
+      <span class="plate-k">Why two subs</span>
+      <div>
+        <p>They disagree, usefully. <strong>r/matcha</strong> runs enthusiast and ceremonial — thin whisked, no milk, opinions about cultivar. <strong>r/MatchaEverything</strong> runs broader and newer — oat lattes, budget tins, everyday drinking. A brand beloved in one can be a shrug in the other, so every claim is tagged with the room it came from.</p>
+        <p>This is a reading of sentiment, not a lab test. Nobody blind-tasted anything.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="support">
+    <div class="sec-head"><h2>Keeping it unbought</h2></div>
+    <p class="support-lede">No ads, no paid placement, no brand gets to move up. If a link ever carries an affiliate tag it will say so on the link itself, and the order stays exactly where it was. Two ways to help, in order of how much they matter.</p>
+
+    <div class="ways">
+      <div class="way">
+        <span class="way-idx">1</span>
+        <div>
+          <div class="way-title">Star the repo</div>
+          <p class="way-sub">Free, one click, and it's the honest signal — <b>stars are how I'll know this is worth updating</b> next month.</p>
+        </div>
+        <a class="btn" id="star-btn" href="https://github.com/YOUR_USERNAME/matcha-guide" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
+          Star on GitHub
+          <span class="star-count" id="star-n">—</span>
+        </a>
+      </div>
+
+      <div class="way">
+        <span class="way-idx">2</span>
+        <div>
+          <div class="way-title">Buy me a coffee</div>
+          <p class="way-sub">Or matcha, more accurately. Covers the domain and the tins I buy to check claims. Entirely optional.</p>
+        </div>
+        <a class="btn ghost" id="bmc-btn" href="https://www.buymeacoffee.com/YOUR_USERNAME" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h13v2H4V3zm0 4h13a3 3 0 0 1 3-3h1a3 3 0 0 1 0 6h-1v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V7zm16 1a1 1 0 0 0-1 1v2h1a1.5 1.5 0 0 0 0-3z"/></svg>
+          Buy me a coffee
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Steeped — an independent matcha guide</span>
+    <span><a href="#" id="feedback">Suggest a brand or tool</a></span>
+  </footer>
+</div>
+
+<script>
+/* grain mask: a 3px sieve — the material the whole page is built from */
+var GRAIN = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='3' height='3'%3E%3Ccircle cx='1' cy='1' r='.62' fill='%23fff'/%3E%3C/svg%3E\")";
+document.documentElement.style.setProperty('--grain', GRAIN);
+
+var DATA = null, filter = 'all', gfilter = 'all';
+
+function subUrl(source, name) {
+  if (source === 'vendor site') return 'https://www.thesongcha.com/products/tea-sifter-weights';
+  var sub = (source && source.toLowerCase().indexOf('everything') !== -1) ? 'MatchaEverything' : 'matcha';
+  var q = encodeURIComponent(name.split('(')[0].split('/')[0].trim());
+  return 'https://www.reddit.com/r/' + sub + '/search/?q=' + q + '&restrict_sr=1';
+}
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function collect(item) {
+  var out = [];
+  item.pros.forEach(function(x){ out.push({kind:'pro', text:x.text, source:x.source, detail:x.detail}); });
+  item.cons.forEach(function(x){ out.push({kind:'con', text:x.text, source:x.source, detail:x.detail}); });
+  return out;
+}
+function verdicts(item) {
+  return collect(item).map(function(v) {
+    return '<div class="v"><span class="v-label ' + v.kind + '">' + (v.kind === 'pro' ? 'For' : 'Against') + '</span>'
+      + '<div><div class="v-claim">' + esc(v.text) + '</div>'
+      + '<a class="cite" href="' + subUrl(v.source, item.name) + '" target="_blank" rel="noopener">'
+      + esc(v.source) + ' — ' + esc(v.detail) + ' ↗</a></div></div>';
+  }).join('');
+}
+function driftMark(p) {
+  if (p.trend === 'up')   return '<span class="drift up">↑</span>';
+  if (p.trend === 'down') return '<span class="drift down">↓</span>';
+  return '<span class="drift flat">—</span>';
+}
+function meter(score, i) {
+  /* the sift: warmer sentiment settles as finer, denser grain.
+     score 60 -> coarse, sparse. score 95 -> fine, dense. */
+  var t  = Math.max(0, Math.min(1, (score - 60) / 38));
+  var op = (0.16 + t * 0.74).toFixed(3);
+  var px = (6.2 - t * 3.9).toFixed(2);   /* coarse 6.2px -> fine 2.3px sieve */
+  return '<div class="meter" title="' + score + ' sentiment"><div class="meter-clip">'
+    + '<div class="meter-fill" style="--op:' + op + ';'
+    + '-webkit-mask-size:' + px + 'px ' + px + 'px;mask-size:' + px + 'px ' + px + 'px;'
+    + 'animation-delay:' + (i * 55) + 'ms"></div></div>'
+    + '<div class="meter-rule"></div></div>';
+}
+function render() {
+  var el = document.getElementById('list');
+  var items = DATA.products.filter(function(p){ return filter === 'all' || p.tags.indexOf(filter) !== -1; });
+  if (!items.length) { el.innerHTML = '<div class="empty">Nothing in this cut. Try another filter.</div>'; return; }
+  el.innerHTML = items.map(function(p, i) {
+    var kicker = p.tags.map(function(t){ return t === 'latte' ? 'latte' : t; }).join(' · ');
+    return '<article class="entry" id="b' + i + '">'
+      + '<div class="entry-head" onclick="tog(\'b' + i + '\')" tabindex="0" role="button" aria-expanded="false">'
+      + '<span class="idx">' + p.rank + '</span>'
+      + '<h3 class="name"><span class="kicker">' + kicker + '</span>' + esc(p.name) + '</h3>'
+      + meter(p.sentiment, i)
+      + '<span class="score">' + p.sentiment + '</span>'
+      + driftMark(p)
+      + '</div>'
+      + '<div class="entry-body"><div class="body-inner"><div class="body-pad">'
+      + verdicts(p) + '</div></div></div></article>';
+  }).join('');
+}
+function vmark(g) {
+  if (g.verdict === 'buy')  return '<span class="verdict-mark vm-buy">Worth it</span>';
+  if (g.verdict === 'skip') return '<span class="verdict-mark vm-skip">Skip</span>';
+  return '<span class="verdict-mark vm-dep">Contested</span>';
+}
+function renderGear() {
+  var el = document.getElementById('glist');
+  var items = DATA.gear.filter(function(g) {
+    if (gfilter === 'all') return true;
+    if (gfilter === 'buy') return g.verdict === 'buy';
+    if (gfilter === 'depends') return g.verdict === 'depends' || g.verdict === 'maybe';
+    return g.verdict === 'skip';
+  });
+  if (!items.length) { el.innerHTML = '<div class="empty">Nothing in this cut. Try another filter.</div>'; return; }
+  el.innerHTML = items.map(function(g, i) {
+    return '<article class="entry" id="g' + i + '">'
+      + '<div class="entry-head gear-head" onclick="tog(\'g' + i + '\')" tabindex="0" role="button" aria-expanded="false">'
+      + '<h3 class="name"><span class="kicker">' + esc(g.kind) + '</span>' + esc(g.name) + '</h3>'
+      + vmark(g)
+      + '<span class="price">' + esc(g.price) + '</span>'
+      + '</div>'
+      + '<div class="entry-body"><div class="body-inner"><div class="body-pad">'
+      + '<p class="summary">' + esc(g.summary) + '</p>'
+      + verdicts(g) + '</div></div></div></article>';
+  }).join('');
+}
+function tog(id) {
+  var e = document.getElementById(id);
+  var open = e.classList.toggle('open');
+  e.querySelector('.entry-head').setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+document.addEventListener('keydown', function(e) {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('entry-head')) {
+    e.preventDefault(); e.target.click();
+  }
+});
+function wire(id, key, fn) {
+  document.getElementById(id).addEventListener('click', function(e) {
+    var b = e.target.closest('.f'); if (!b) return;
+    var all = this.querySelectorAll('.f');
+    for (var i = 0; i < all.length; i++) all[i].classList.remove('on');
+    b.classList.add('on');
+    if (key === 'f') filter = b.dataset.f; else gfilter = b.dataset.g;
+    fn();
+  });
+}
+wire('filters', 'f', render);
+wire('gfilters', 'g', renderGear);
+
+/* ─────────────────────────────────────────────
+   SET THESE TWO, then everything below just works.
+   ───────────────────────────────────────────── */
+var GITHUB_REPO = "ZhiCLiu/Matcha_Guide";  
+var BMC_USER    = "Gabriel Liu";               
+
+(function wireSupport() {
+  var star = document.getElementById('star-btn');
+  var bmc  = document.getElementById('bmc-btn');
+  star.href = 'https://github.com/' + GITHUB_REPO;
+  bmc.href  = 'https://www.buymeacoffee.com/' + BMC_USER;
+
+  /* live star count — public endpoint, no key, no auth */
+  var n = document.getElementById('star-n');
+  if (GITHUB_REPO.indexOf('YOUR_USERNAME') === 0) { n.textContent = '0'; return; }
+  fetch('https://api.github.com/repos/' + GITHUB_REPO)
+    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function(d) { n.textContent = (d.stargazers_count || 0).toLocaleString(); })
+    .catch(function() { n.remove(); });   /* rate-limited or offline: drop it, don't show a lie */
+})();
+
+document.getElementById('feedback').addEventListener('click', function(e) {
+  e.preventDefault(); alert('Point this at a Google Form or your email.');
+});
+
+fetch('data.json').then(function(r){ return r.json(); }).then(function(d) {
+  DATA = d;
+  document.getElementById('mast-date').textContent = d.meta.updated + ' · read monthly';
+  document.getElementById('s-threads').textContent = d.meta.threads_scanned.toLocaleString();
+  document.getElementById('s-brands').textContent = d.products.length;
+  document.getElementById('s-gear').textContent = d.gear.length;
+  render(); renderGear();
+}).catch(function() {
+  document.getElementById('list').innerHTML =
+    '<div class="empty">data.json didn\'t load. Opening index.html straight from the file system blocks it — run a local server (see README).</div>';
+});
+</script>
+</body>
+</html>

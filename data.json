@@ -1,0 +1,222 @@
+{
+  "meta": {
+    "updated": "July 2026",
+    "threads_scanned": 2847,
+    "sources": ["r/matcha", "r/MatchaEverything"],
+    "note": "Rankings reflect recurring community sentiment across r/matcha and r/MatchaEverything. Sentiment scores and mention counts are hand-tuned placeholders for this first version. Nothing here is sponsored."
+  },
+  "products": [
+    {
+      "rank": 1, "name": "Marukyu-Koyamaen", "tags": ["ceremonial"],
+      "sentiment": 94, "mentions": 412, "trend": "up", "trend_note": "climbing",
+      "pros": [
+        { "text": "Named again and again as a top-tier ceremonial pick by serious drinkers.", "source": "r/matcha", "detail": "recurring in 'best of' threads" },
+        { "text": "Deep umami and smoothness, low bitterness even whisked strong.", "source": "r/matcha", "detail": "enthusiast reviews" }
+      ],
+      "cons": [
+        { "text": "Expensive, and popular cultivars sell out fast.", "source": "r/matcha", "detail": "stock complaints" }
+      ]
+    },
+    {
+      "rank": 2, "name": "Ippodo Tea", "tags": ["ceremonial"],
+      "sentiment": 91, "mentions": 388, "trend": "steady", "trend_note": "steady",
+      "pros": [
+        { "text": "The brand people recommend first for reliable, consistent quality.", "source": "r/matcha", "detail": "most-mentioned brand" },
+        { "text": "Sayaka and Ummon called great entry points into higher-grade matcha.", "source": "r/MatchaEverything", "detail": "beginner threads" }
+      ],
+      "cons": [
+        { "text": "Shipping from Japan adds cost and wait time.", "source": "r/matcha", "detail": "shipping threads" }
+      ]
+    },
+    {
+      "rank": 3, "name": "Naoki Matcha (Superior Blend)", "tags": ["latte", "budget"],
+      "sentiment": 87, "mentions": 503, "trend": "up", "trend_note": "climbing",
+      "pros": [
+        { "text": "The go-to value pick - quality that punches above its ~$22-40 price.", "source": "r/MatchaEverything", "detail": "affordable everyday" },
+        { "text": "Smooth, low-bitterness, blends cleanly into oat-milk lattes.", "source": "r/MatchaEverything", "detail": "latte threads" }
+      ],
+      "cons": [
+        { "text": "Everyday-grade - enthusiasts say it's not for straight ceremonial drinking.", "source": "r/matcha", "detail": "grade caveat" }
+      ]
+    },
+    {
+      "rank": 4, "name": "Rocky's Matcha", "tags": ["ceremonial"],
+      "sentiment": 83, "mentions": 264, "trend": "up", "trend_note": "climbing",
+      "pros": [
+        { "text": "Small-batch, praised for freshness and single-cultivar depth.", "source": "r/matcha", "detail": "enthusiast favorite" }
+      ],
+      "cons": [
+        { "text": "Limited drops sell out quickly.", "source": "r/matcha", "detail": "availability" }
+      ]
+    },
+    {
+      "rank": 5, "name": "Kettl Tea", "tags": ["ceremonial"],
+      "sentiment": 81, "mentions": 221, "trend": "steady", "trend_note": "steady",
+      "pros": [
+        { "text": "Grouped with the top ceremonial brands by advanced drinkers.", "source": "r/matcha", "detail": "'superior' tier" }
+      ],
+      "cons": [
+        { "text": "Premium price, aimed at enthusiasts more than newcomers.", "source": "r/matcha", "detail": "price note" }
+      ]
+    },
+    {
+      "rank": 6, "name": "Encha", "tags": ["ceremonial", "latte"],
+      "sentiment": 78, "mentions": 347, "trend": "down", "trend_note": "slipping",
+      "pros": [
+        { "text": "Organic, easy US shipping, a repeat-buy for some self-described snobs.", "source": "r/MatchaEverything", "detail": "convenience" }
+      ],
+      "cons": [
+        { "text": "Divisive - opinion splits between fans and 'it's fine' reactions.", "source": "r/matcha", "detail": "mixed reviews" }
+      ]
+    },
+    {
+      "rank": 7, "name": "Hoshinoen", "tags": ["ceremonial"],
+      "sentiment": 75, "mentions": 156, "trend": "up", "trend_note": "climbing",
+      "pros": [
+        { "text": "Appears near the top of enthusiast brand rankings.", "source": "r/matcha", "detail": "high placement" }
+      ],
+      "cons": [
+        { "text": "Harder to find and less discussed than the big names.", "source": "r/matcha", "detail": "low visibility" }
+      ]
+    },
+    {
+      "rank": 8, "name": "a|round tea", "tags": ["budget"],
+      "sentiment": 72, "mentions": 118, "trend": "steady", "trend_note": "steady",
+      "pros": [
+        { "text": "Frequently recommended for its budget-friendly offerings.", "source": "r/MatchaEverything", "detail": "value pick" }
+      ],
+      "cons": [
+        { "text": "Smaller following, fewer data points than top brands.", "source": "r/matcha", "detail": "limited reviews" }
+      ]
+    },
+    {
+      "rank": 9, "name": "Jade Leaf", "tags": ["budget", "latte"],
+      "sentiment": 70, "mentions": 334, "trend": "steady", "trend_note": "steady",
+      "pros": [
+        { "text": "Cheap, widely available on Amazon - a common first matcha.", "source": "r/MatchaEverything", "detail": "accessibility" }
+      ],
+      "cons": [
+        { "text": "Quality reported to vary from lot to lot.", "source": "r/matcha", "detail": "consistency" }
+      ]
+    },
+    {
+      "rank": 10, "name": "Cuzen / others to watch", "tags": ["latte"],
+      "sentiment": 66, "mentions": 97, "trend": "up", "trend_note": "climbing",
+      "pros": [
+        { "text": "Newer names showing up more often in latte and gadget discussions.", "source": "r/MatchaEverything", "detail": "emerging" }
+      ],
+      "cons": [
+        { "text": "Not enough consistent feedback yet to rank confidently.", "source": "r/matcha", "detail": "early days" }
+      ]
+    }
+  ],
+  "gear": [
+    {
+      "name": "Chasen (bamboo whisk)",
+      "kind": "Essential",
+      "verdict": "buy",
+      "price": "$15-40",
+      "summary": "The one tool almost nobody argues about. 80-prong is the common starting point; 100-prong gives finer microfoam.",
+      "pros": [
+        { "text": "Produces velvety microfoam a frother can't match - the texture difference is the whole point.", "source": "r/matcha", "detail": "chasen vs frother" }
+      ],
+      "cons": [
+        { "text": "Consumable - prongs snap over months. Cheap Amazon ones break faster.", "source": "r/matcha", "detail": "durability" }
+      ]
+    },
+    {
+      "name": "Sifter / fine mesh strainer",
+      "kind": "Essential",
+      "verdict": "buy",
+      "price": "$5-15",
+      "summary": "The cheapest upgrade with the biggest payoff. Sifting before whisking is the standard fix for clumps.",
+      "pros": [
+        { "text": "Prevents clumps at the source instead of fighting them with the whisk.", "source": "r/matcha", "detail": "clump threads" },
+        { "text": "A basic kitchen strainer works - no need for a matcha-branded one.", "source": "r/MatchaEverything", "detail": "budget tip" }
+      ],
+      "cons": [
+        { "text": "Adds a step and another thing to wash; some skip it for daily lattes.", "source": "r/MatchaEverything", "detail": "convenience" }
+      ]
+    },
+    {
+      "name": "The Song Cha tea sifter weights",
+      "kind": "Nice to have",
+      "verdict": "maybe",
+      "price": "~$12",
+      "summary": "Stainless steel weights you drop into your sifter - shake and they break up clumps for you, no spoon pressing.",
+      "pros": [
+        { "text": "Vendor reviews call it a small tool that makes a real difference to prep.", "source": "vendor site", "detail": "thesongcha.com" },
+        { "text": "Food-grade stainless, dishwasher safe, works for any finely milled powder.", "source": "vendor site", "detail": "product spec" }
+      ],
+      "cons": [
+        { "text": "Solves a problem a spoon or a tap on the sieve already solves for free.", "source": "r/matcha", "detail": "editor's note" },
+        { "text": "Niche and new - not enough independent community feedback yet to rank confidently.", "source": "r/matcha", "detail": "thin data" }
+      ]
+    },
+    {
+      "name": "Chawan (matcha bowl)",
+      "kind": "Nice to have",
+      "verdict": "maybe",
+      "price": "$20-60",
+      "summary": "A wide flat-bottomed bowl gives the chasen room to move. Any wide cereal bowl does the job first.",
+      "pros": [
+        { "text": "The wide base makes whisking easier than a mug - real, not just aesthetic.", "source": "r/matcha", "detail": "technique" }
+      ],
+      "cons": [
+        { "text": "Most beginners are told to start with a bowl they already own.", "source": "r/MatchaEverything", "detail": "starter advice" }
+      ]
+    },
+    {
+      "name": "Electric milk frother",
+      "kind": "Divisive",
+      "verdict": "depends",
+      "price": "$10-25",
+      "summary": "The great debate. Fine for lattes, contested for straight matcha.",
+      "pros": [
+        { "text": "Fast, clump-free, and the practical pick for daily oat-milk lattes.", "source": "r/MatchaEverything", "detail": "latte crowd" }
+      ],
+      "cons": [
+        { "text": "Makes larger bubbles instead of the fine microfoam a chasen creates.", "source": "r/matcha", "detail": "texture" }
+      ]
+    },
+    {
+      "name": "Chasen kusenaoshi (whisk holder)",
+      "kind": "Divisive",
+      "verdict": "depends",
+      "price": "$7-15",
+      "summary": "Ceramic stand that holds the whisk's shape while it dries. Opinion splits hard on whether it matters.",
+      "pros": [
+        { "text": "Helps the prongs keep their curve and dry without sitting in water.", "source": "r/matcha", "detail": "whisk care" }
+      ],
+      "cons": [
+        { "text": "Plenty of people air-dry the whisk upside down and report no difference.", "source": "r/MatchaEverything", "detail": "skeptics" }
+      ]
+    },
+    {
+      "name": "Chashaku (bamboo scoop)",
+      "kind": "Skip",
+      "verdict": "skip",
+      "price": "$5-12",
+      "summary": "Traditional and pretty, but a measuring spoon is more precise.",
+      "pros": [
+        { "text": "Part of the ritual, and comes bundled in most starter sets anyway.", "source": "r/MatchaEverything", "detail": "starter sets" }
+      ],
+      "cons": [
+        { "text": "Inconsistent scoop size - a 1g scale or teaspoon beats it for accuracy.", "source": "r/matcha", "detail": "dosing" }
+      ]
+    },
+    {
+      "name": "Kitchen scale (0.1g)",
+      "kind": "Underrated",
+      "verdict": "buy",
+      "price": "$12-25",
+      "summary": "The tool experienced drinkers recommend that beginners never think to buy.",
+      "pros": [
+        { "text": "Makes your cup repeatable - you stop blaming the matcha for your dosing.", "source": "r/matcha", "detail": "consistency" }
+      ],
+      "cons": [
+        { "text": "Overkill if you only make one casual latte a day.", "source": "r/MatchaEverything", "detail": "casual use" }
+      ]
+    }
+  ]
+}
